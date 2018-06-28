@@ -11,6 +11,10 @@ class RedisClient(object):
         :param port: 端口号
         :param password: redis密码
         """
+        # Address already in use:
+        # $ ps aux | grep redis
+        # $ kill -9 xxx
+        # $ redis-server
         self.client = StrictRedis(host=host, port=port, password=password)
 
     def add(self, proxy, score=INITIAL_SCORE):
