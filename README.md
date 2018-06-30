@@ -1,5 +1,7 @@
 # MXProxyPool
 动态代理ip池
+## 架构图
+![](https://github.com/iamhmx/MXProxyPool/blob/master/screenshots/%E6%9E%B6%E6%9E%84%E5%9B%BE.png?raw=true)
 ## 安装Python 3.5+
 ## 安装Redis，并启动服务
 ```
@@ -27,8 +29,6 @@ python3 run.py
 ![](https://github.com/iamhmx/MXProxyPool/blob/master/screenshots/api.png?raw=true)
 * 随机获取一个代理
 ![](https://github.com/iamhmx/MXProxyPool/blob/master/screenshots/api-fetch.png?raw=true)
-* 代理个数
-![](https://github.com/iamhmx/MXProxyPool/blob/master/screenshots/api-count.png?raw=true)
 
 ## 使用代理池示例
 ```
