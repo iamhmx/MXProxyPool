@@ -22,7 +22,15 @@ settings.py存放了配置信息
 cd MXProxyPool
 python3 run.py
 ```
-## 使用代理池
+## api接口
+* 首页
+![](https://github.com/iamhmx/MXProxyPool/blob/master/screenshots/api.png?raw=true)
+* 随机获取一个代理
+![](https://github.com/iamhmx/MXProxyPool/blob/master/screenshots/api-fetch.png?raw=true)
+* 代理个数
+![](https://github.com/iamhmx/MXProxyPool/blob/master/screenshots/api-count.png?raw=true)
+
+## 使用代理池示例
 ```
 import requests
 from proxypool.settings import API_HOST, API_PORT
