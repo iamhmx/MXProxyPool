@@ -25,9 +25,10 @@ cd MXProxyPool
 python3 run.py
 ```
 ## api接口
-* 首页
-![](https://github.com/iamhmx/MXProxyPool/blob/master/screenshots/api.png?raw=true)
-* 随机获取一个代理
+```
+# 随机获取一个代理
+http://localhost:8000/fetch
+```
 ![](https://github.com/iamhmx/MXProxyPool/blob/master/screenshots/api-fetch.png?raw=true)
 
 ## 使用代理池示例
