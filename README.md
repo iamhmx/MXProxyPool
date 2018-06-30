@@ -2,6 +2,12 @@
 动态代理ip池
 ## 安装Python 3.5+
 ## 安装Redis，并启动服务
+```
+# mac os安装
+pip install redis
+# 启动redis
+redis-server /usr/local/etc/redis.conf
+```
 ## 安装依赖库
 ```
 cd MXProxyPool
