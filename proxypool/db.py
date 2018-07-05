@@ -1,6 +1,10 @@
 from redis import StrictRedis
 from proxypool.settings import *
 import random
+from proxypool.setuplogging import setup_logging
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class RedisClient(object):
@@ -24,11 +28,11 @@ class RedisClient(object):
         :return: 添加结果
         """
         if self.client.zscore(REDIS_KEY, proxy) is None:
-            print('Redis不存在该数据，可插入')
-            print('代理：{}，分值：{}'.format(proxy, score))
+            logger.info('Redis不存在该数据，可插入')
+            logger.info('代理：%s，分值：%s', proxy, score)
             return self.client.zadd(REDIS_KEY, score, proxy)
         else:
-            print('已有该条数据')
+            logger.info('已有该条数据')
 
     def set_vaild(self, proxy, score=MAX_SCORE):
         """
@@ -47,10 +51,10 @@ class RedisClient(object):
         score = self.client.zscore(REDIS_KEY, proxy)
         if score is not None:
             if score > 1:
-                print('将 %s (当前分值：%s) 减1' % (proxy, score))
+                logger.info('将 %s (当前分值：%s) 减1', proxy, score)
                 self.client.zincrby(REDIS_KEY, proxy, -1)
             else:
-                print('%s (当前分值：%s) 删除' % (proxy, score))
+                logger.info('%s (当前分值：%s) 删除', proxy, score)
                 self.client.zrem(REDIS_KEY, proxy)
 
     def count(self):
@@ -82,7 +86,7 @@ class RedisClient(object):
         """
         results = self.client.zrangebyscore(REDIS_KEY, MAX_SCORE, MAX_SCORE)
         if len(results):
-            print('有%s个可用代理' % len(results))
+            logger.info('有%s个可用代理', len(results))
             return random.choice(results)
         else:
             results = self.client.zrangebyscore(REDIS_KEY, MIN_SCORE, MAX_SCORE)
@@ -99,6 +103,7 @@ class RedisClient(object):
 
 
 if __name__ == '__main__':
+    setup_logging()
     client = RedisClient()
     # print('个数：', client.count())
     # print('插入')
@@ -129,5 +134,5 @@ if __name__ == '__main__':
     # print(client.count())
     # proxy = client.random()
     # print('代理：', proxy, '分值：', client.get_score(proxy))
-    print(client.get_score('222.175.73.14:8060'))
-    print(client.random())
+    logger.info(client.get_score('222.175.73.14:8060'))
+    logger.info(client.random())

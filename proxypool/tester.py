@@ -3,6 +3,11 @@ import aiohttp
 import asyncio
 from proxypool.db import RedisClient
 from time import sleep
+from proxypool.setuplogging import setup_logging
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class Tester(object):
@@ -22,15 +27,15 @@ class Tester(object):
                     proxy = proxy.decode('utf-8')
                 proxy_data = 'http://' + proxy
                 async with session.get(TEST_URL, proxy=proxy_data, timeout=15) as response:
-                    print('测试：%s，结果：%s' % (proxy_data, response.status))
+                    logger.info('测试：%s，结果：%s', proxy_data, response.status)
                     if response.status in VALID_STATUS:
-                        print('代理测试可用')
+                        logger.info('代理测试可用')
                         self.client.set_vaild(proxy)
                     else:
-                        print('代理测试不可用，分值减一')
+                        logger.info('代理测试不可用，分值减一')
                         self.client.decrease(proxy)
             except Exception as e:
-                print('测试失败', e, '分值减一')
+                logger.info('%s 测试失败，分值减一', proxy)
                 self.client.decrease(proxy)
 
     def run(self):
@@ -38,7 +43,7 @@ class Tester(object):
         批量测试代理
         :return:
         """
-        print('开始测试...')
+        logger.info('开始测试...')
         try:
             proxies = self.client.all()
             loop = asyncio.get_event_loop()
@@ -48,9 +53,10 @@ class Tester(object):
                 loop.run_until_complete(asyncio.wait(tester_list))
                 sleep(5)
         except Exception as e:
-            print('测试发生错误', e)
+            logger.info('测试发生错误')
 
 
 if __name__ == '__main__':
+    setup_logging()
     tester = Tester()
     tester.run()

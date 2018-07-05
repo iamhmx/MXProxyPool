@@ -1,5 +1,9 @@
 from pyquery import PyQuery as pq
 from time import sleep
+from proxypool.setuplogging import setup_logging
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class CrawlerMetaclass(type):
@@ -44,7 +48,7 @@ class Crawler(object, metaclass=CrawlerMetaclass):
         """
         # print(self.__CrawlCount__)
         # print(self.__CrawlFunc__)
-        print('开始爬取...')
+        logger.info('开始爬取...')
         proxies = []
         for i in range(self.__CrawlCount__):
             func = self.__CrawlFunc__[i]
@@ -62,7 +66,7 @@ class Crawler(object, metaclass=CrawlerMetaclass):
         # 抓10页
         urls = [base_url.format(page) for page in range(1, page_count+1)]
         for url in urls:
-            print('爬取：', url)
+            logger.info('爬取：%s', url)
             doc = pq(url=url, headers=self.headers)
             for tr in doc('#ip_list tr:gt(0)').items():
                 yield tr('td:nth-child(2)').text() + ':' + tr('td:nth-child(3)').text()
@@ -76,7 +80,7 @@ class Crawler(object, metaclass=CrawlerMetaclass):
         base_url = 'https://www.kuaidaili.com/free/inha/{}/'
         urls = [base_url.format(page) for page in range(1, page_count+1)]
         for url in urls:
-            print('爬取：', url)
+            logger.info('爬取：%s', url)
             doc = pq(url=url, headers=self.headers)
             for tr in doc('#list tbody tr').items():
                 yield tr('td:nth-child(1)').text() + ':' + tr('td:nth-child(2)').text()
@@ -95,18 +99,19 @@ class Crawler(object, metaclass=CrawlerMetaclass):
                 href = li('a').attr('href')
                 yield start_url + href
         for url in get_page_url():
-            print('爬取：', url)
+            logger.info('爬取：%s', url)
             doc = pq(url=url, headers=self.headers)
             for tr in doc('#footer tr:gt(0)').items():
                 yield tr('td:nth-child(1)').text() + ':' + tr('td:nth-child(2)').text()
 
 
 if __name__ == '__main__':
+    setup_logging()
     crawl = Crawler()
     # for proxy in crawl.crawl_kuaidaili(page_count=1):
     #     print(proxy)
     # print(crawl.__CrawlCount__)
     # print(crawl.__CrawlFunc__)
     proxies = crawl.start_crawl()
-    print(len(proxies))
+    logger.info(len(proxies))
 

@@ -1,4 +1,5 @@
 from proxypool.manager import Manager
+from proxypool.setuplogging import setup_logging
 
 
 def main():
@@ -15,4 +16,5 @@ def main():
 
 
 if __name__ == '__main__':
+    setup_logging()
     main()

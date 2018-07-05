@@ -14,7 +14,7 @@ def get_one_proxy():
     return doc
 
 
-def test():
+def main():
     # 不使用代理
     response1 = requests.get('http://httpbin.org/get')
     print(response1.text)
@@ -35,4 +35,4 @@ def test():
 
 
 if __name__ == '__main__':
-    test()
+    main()

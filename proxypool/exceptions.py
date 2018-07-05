@@ -1,3 +1,9 @@
+from proxypool.setuplogging import setup_logging
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 class EmptyException(Exception):
     def __init__(self, error_info):
         super().__init__(self)
@@ -8,7 +14,8 @@ class EmptyException(Exception):
 
 
 if __name__ == '__main__':
+    setup_logging()
     try:
         raise EmptyException('空的')
     except EmptyException as e:
-        print(e.error_info)
+        logger.error('代理池空异常', exc_info=True)
