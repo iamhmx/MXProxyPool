@@ -2,6 +2,9 @@
 动态代理ip池
 ## 架构图
 ![](https://github.com/iamhmx/MXProxyPool/blob/master/screenshots/%E6%9E%B6%E6%9E%84%E5%9B%BE.png?raw=true)
+
+* *说明：爬取模块将会爬取免费代理，免费代理的可用性低，如需获取高效的代理ip，请购买付费代理（[各大付费代理比较](https://cuiqingcai.com/5094.html)）。*
+
 ## 安装Python 3.5+
 ## 安装Redis，并启动服务
 ```
